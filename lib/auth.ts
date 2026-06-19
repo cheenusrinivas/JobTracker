@@ -7,9 +7,25 @@ const prisma = new PrismaClient()
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [Google],
+  providers: [
+    Google({
+      authorization: {
+        params: {
+          scope: "openid email profile https://www.googleapis.com/auth/gmail.readonly",
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    }),
+  ],
   session: { strategy: "database" },
   pages: {
     signIn: "/signin",
+  },
+  callbacks: {
+    async session({ session, user }) {
+      session.user.id = user.id
+      return session
+    },
   },
 })

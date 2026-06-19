@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { addApplication } from "./actions/applications"
-
+import GmailSyncButton from "./components/GmailSyncButton"
 import { PrismaClient } from "@prisma/client"
 import StatusChart from "./components/StatusChart"
 import StatusDropdown from "./components/StatusDropdown"
@@ -38,9 +38,12 @@ export default async function DashboardPage() {
 
   return (
     <div className="p-10 max-w-3xl mx-auto">
-      <div className="mb-8">
-  <h1 className="text-2xl font-bold mb-1">Welcome, {session.user?.name}!</h1>
-  <p className="text-gray-600">{session.user?.email}</p>
+      <div className="flex justify-between items-center mb-8">
+  <div>
+    <h1 className="text-2xl font-bold mb-1">Welcome, {session.user?.name}!</h1>
+    <p className="text-gray-600">{session.user?.email}</p>
+  </div>
+  <GmailSyncButton />
 </div>
 
 <div className="grid grid-cols-3 gap-4 mb-12">
